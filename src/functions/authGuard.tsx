@@ -1,8 +1,8 @@
-import UseAuth from "../data/hook/UseAuth";
 import Image from "next/image";
 import load from "../../public/loading.gif";
 import router from "next/router";
 import Head from "next/head";
+import UseAuth from "../data/hook/UseAuth";
 export default function authGuard(jsx) {
     const { user, loading } = UseAuth()
     function renderCont() {
@@ -23,17 +23,17 @@ export default function authGuard(jsx) {
             </>
         )
     }
-    function renderLoading() {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <Image src={load} alt="carregando"/>
-            </div>
-        )
-    }
-    if (!loading && user?.email) return renderCont()
-    else if (loading) return renderLoading()
-    else {
-        router.push('/auth')
-        return null
-    }
+    // function renderLoading() {
+    //     return (
+    //         <div className="flex justify-center items-center h-screen">
+    //             <Image src={load} alt="carregando"/>
+    //         </div>
+    //     )
+    // }
+    // if (!loading && user?.email) return renderCont()
+    // else if (loading) return renderLoading()
+    // else {
+    //     router.push('/auth')
+    //     return null
+    // }
 }

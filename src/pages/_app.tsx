@@ -4,9 +4,8 @@ import 'tailwindcss/tailwind.css';
 
 export default function App({ Component, pageProps }) {
   return (
-    <AuthProvider>
+    // <AuthProvider>
       <Component {...pageProps} />
-    </AuthProvider>
+    // </AuthProvider>
   )
-  // return <Component {...pageProps} />;
 }

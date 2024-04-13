@@ -1,64 +1,65 @@
 import { createContext, useEffect, useState } from "react";
 import User from "../../model/User.model";
 import route from 'next/router';
-import * as Cookies from 'js-cookie';
 interface AuthContextInterface {
-    user?: User
-    login?: () => Promise<void>
-    logout?: () => Promise<void>
-    loading?: boolean
+    user?: User;
+    logout?: () => Promise<void>;
+    cadUser?: (user:any) => Promise<void>;
+    loading?: boolean;
 }
 const AuthContext = createContext<AuthContextInterface>({})
-async function userDb(user:any):Promise<User> {
-    // aqui entra o fecht para buscar na api
-    return {
-        id: 1,
-        name: '',
-        email: '',
-        typeUser: 1,
-        token: ''
-    }
-}
-function cookie(logado: boolean) {
-    if (logado) {Cookies.set('user-task-master-auth', logado, {
-        expires: 7
-    })} else Cookies.remove('user-task-master-auth')
-}
+// function cookie(logado: boolean) {
+//     if (logado) {
+//         Cookies.set('user-task-master-auth', logado, {
+//             expires: 7
+//         })
+//     } else Cookies.remove('user-task-master-auth')
+// }
 export function AuthProvider(props) {
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState<User>(null)
     async function configSession(usuario) {
+        console.log(usuario)
         if (usuario) {
-            const user = await userDb(usuario)
-            setUser(user)
-            cookie(true)
-            setLoading(false)
+            // user = usuario
+            // cookie(true)
+            // setLoading(false)
             return usuario.email
         } else {
-            setUser(null)
-            cookie(false)
-            setLoading(false)
+            // setUser(null)
+            // cookie(false)
+            // setLoading(false)
             return false
         }
     }
-    async function login() {
-        console.log('tentando logar')
-        route.push('/')
-        //usar a função configsessao aqui
-    }
-    async function logout() {
-        try {
-            setLoading(true)
-            // await configSession(null)
-            console.log('tentando sair')
-            route.push('/auth')
-        } finally {
-            setLoading(false)
+    async function cadUser(user: any) {
+        const res = await fetch(`https://orthodox-pattie-saysystem.koyeb.app/user`, {
+            // const res = await fetch(`http://localhost:8080/user`, {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        if (res.ok) {
+            const data = await res.json();
+            console.log(data)
+            return data
         }
     }
-    useEffect(()=> {},[])
+    // async function logout() {
+    //     try {
+    //         setLoading(true)
+    //         // await configSession(null)
+    //         console.log('tentando sair')
+    //         route.push('/auth')
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }
+    // useEffect(() => { setLoading(false) }, [])
     return (
-        <AuthContext.Provider value={{user, login, logout, loading}}>{ props.children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ user, cadUser }}>{props.children}</AuthContext.Provider>
     )
 }
 export default AuthContext
