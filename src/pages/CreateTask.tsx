@@ -49,7 +49,7 @@ export default function CreateTask() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(getForm())
         };
-        fetch(`http://localhost:8080/task/${id}`, requestOptions)
+        fetch(`https://orthodox-pattie-saysystem.koyeb.app/task/${id}`, requestOptions)
             .then(response => response.json())
             .then(data => {route.push('/')});
     }
