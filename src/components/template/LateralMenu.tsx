@@ -1,10 +1,10 @@
-// import UseAuth from "../../data/hook/UseAuth";
+import useAppData from "../../data/hook/useAppData";
 import {IconCreate, IconHome, IconLogout, IconPen } from "../icons";
 import Logo from "./Logo";
 import MenuItem from "./Menuitem";
 
 export default function LateralMenu() {
-    // const {logout}=UseAuth()
+    const ctx = useAppData()
     return (
         <aside className={`flex flex-col`}>
             <div className={`
@@ -18,7 +18,7 @@ export default function LateralMenu() {
                 <MenuItem url="/CreateTask" text="Criar Tarefa" icon={IconCreate} />
             </ul>
             <ul>
-                <MenuItem text="Sair" icon={IconLogout}/>
+                <MenuItem click={ctx.logout} text="Sair" icon={IconLogout}/>
             </ul>
         </aside>
     )

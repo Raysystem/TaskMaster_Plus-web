@@ -1,12 +1,10 @@
-import { useState } from "react";
+import {useState } from "react";
 import InputAuth from "../components/auth/InputAuth";
 import { IconCheck, IconWarning } from "../components/icons";
-import route from 'next/router';
-import UseAuth from "../data/hook/UseAuth";
-// 
+import useAppData from "../data/hook/useAppData";
 
 export default function Auth() {
-    const { cadUser } = UseAuth()
+    const ctx = useAppData()
     const [modo, setModo] = useState<'login' | 'register'>('login')
     const [erro, setErro] = useState(null)
     const [success, setSuccess] = useState(null)
@@ -27,24 +25,16 @@ export default function Auth() {
     }
     const submit = async () => {
         if (modo === 'login') {
-            const res = await fetch(`https://orthodox-pattie-saysystem.koyeb.app/auth`, {
-                // const res = await fetch(`http://localhost:8080/auth`, {
-                method: 'POST',
-                body: JSON.stringify({email: email, password: password }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            if (res.ok) {
-                const data = await res.json();
-                console.log(data)
-            } else {
-                renderErro('Erro ao Logar!')
-            }
+           try {
+               const resp = await ctx.login({ email, password })
+               console.log(resp)
+           } catch (error) {
+            console.log(error)
+           }
         }
         else {
             try {
-                const resp = await cadUser({ name: name, email: email, password: password }) 
+                const resp = await ctx.cad({ name: name, email: email, password: password })
                 console.log(resp)
             } catch (error) {
                 console.log(error)

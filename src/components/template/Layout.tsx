@@ -9,8 +9,7 @@ interface LayoutProps {
     children?: any
 }
 export default function Layout(props: LayoutProps) {
-    // return authGuard (
-    return (
+    return authGuard (
         <div className={`flex h-screen w-screen`}>
             <LateralMenu />
             <div className={`
