@@ -1,27 +1,46 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/template/Layout";
-import router from "next/router"
-import { IconCheck, IconPen, IconTrash } from "../components/icons";
+import { IconCheck, IconPen, IconTrash, IconWarning } from "../components/icons";
+import useAppData from "../data/hook/useAppData";
 
 export default function Home() {
+  const ctx = useAppData()
+  const [erro, setErro] = useState(null)
+  const [success, setSuccess] = useState('')
   const [tasks, setTasks] = useState([])
   useEffect(() => {
-    getTasks()
+    console.log(ctx.user)
+    if(ctx.user)getTasks()
   }, [])
-  function getTasks() {
-    fetch('https://orthodox-pattie-saysystem.koyeb.app/task')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setTasks(data)
-      })
+  async function getTasks() {
+    const resp = await ctx.getTasks()
+    console.log(resp)
+    console.log(ctx.user)
+    if (resp.error) renderErro('Lista vazia Clique em "Criar Tarefa"!', 7000)
+    else setTasks(resp)
+  }
+  async function del(id) {
+    const resp = await ctx.del(id)
+    getTasks()
+  }
+  function renderErro(msg, timeMs = 5000) {
+    setErro(msg)
+    setTimeout(() => {
+      setErro(null)
+    }, timeMs);
+  }
+  function renderSuccess(msg, timeMs = 5000) {
+    setSuccess(msg)
+    setTimeout(() => {
+      setSuccess(null)
+    }, timeMs);
   }
   function renderList() {
     if (tasks.length) {
       return tasks.map((task, i) => {
         return (
-          <div className="w-full md:w-1/3 items-center bg-gray-400 py-3 px-5 my-2 ml-1 border border-gray-500 rounded-lg">
-            <span key={task.id} className="ml-3 text-gray table-auto">#{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
+          <div key={task.id} className="w-full md:w-1/3 items-center bg-gray-400 py-3 px-5 my-2 ml-1 border border-gray-500 rounded-lg">
+            <span className="ml-3 text-gray table-auto">#{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
               <div className="flex flex-row my-.2">
                 ID: {task.id} <br />
               </div>
@@ -44,41 +63,35 @@ export default function Home() {
                 </span>
               </div>
               <hr className="my-3" />
-              {task.concluded ? (<button disabled className="float-start bg-green-400 rounded-lg px-3 py-1">{IconCheck}</button>) : (<button onClick={()=>checkCloncluded(task.id)} className="float-start bg-green-400 rounded-lg px-3 py-1">Finalizar Tarefa</button>)}
+              {task.concluded ? (<button disabled className="float-start bg-green-400 rounded-lg px-3 py-1">{IconCheck}</button>) : (<button onClick={()=>ctx.checkCloncluded(task.id, tasks)} className="float-start bg-green-400 rounded-lg px-3 py-1">Finalizar Tarefa</button>)}
               <button onClick={() => del(task.id)} className="float-right bg-red-400 rounded-lg px-3 py-1 ml-2">{IconTrash}</button>
-              {!task.concluded ? (<button onClick={() => edt(task.id)} className="float-end bg-indigo-400 rounded-lg px-3 py-1">{IconPen}</button>): null}
+              {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="float-end bg-indigo-400 rounded-lg px-3 py-1">{IconPen}</button>): null}
             </span>
           </div>
         )
       })
-    } else return <div>lista vazia</div>
+    }
   }
-  function edt(id) {
-    goTo(`/CreateTask/?id=${id}`)
-  }
-  function checkCloncluded(id) {
-    const obj = tasks.find(t => t.id === id)
-    obj.concluded = true
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(obj)
-    };
-    fetch(`https://orthodox-pattie-saysystem.koyeb.app/task/${id}`, requestOptions)
-      .then(response => response.json())
-      .then(data => { getTasks() });
-  }
-  function del(id) {
-    fetch(`https://orthodox-pattie-saysystem.koyeb.app/task/${id}`, { method: 'DELETE' }).then((res) => getTasks())
-  }
-  function goTo(route = '/CreateTask') {
-    router.push(route)
-  }
+  
   return (
     <Layout title="Pagina Inicial" subTitle="Lista De Tarefas">
-      <button onClick={() => goTo()} className="w-full bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg px-4 py-3">
+      <button onClick={() => ctx.goTo()} className="w-full bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg px-4 py-3">
         Criar Tarefa
       </button>
+      <div>
+        {erro ? (
+          <div className="flex items-center bg-red-400 text-white py-3 px-5 my-2 border border-red-700 rounded-lg">
+            {IconWarning}
+            <span className="ml-3 text-sm">{erro}</span>
+          </div>
+        ) : false}
+        {success ? (
+          <div className="flex items-center bg-green-500 py-3 px-5 my-2 border border-green-700 rounded-lg">
+            {IconCheck}
+            <span className="ml-3 text-sm">{success}</span>
+          </div>
+        ) : false}
+      </div>
       <div className="w-full flex flex-col md:flex-row">
         {renderList()}
       </div>

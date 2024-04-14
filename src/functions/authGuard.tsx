@@ -25,7 +25,7 @@ export default function authGuard(jsx) {
     }
     function renderLoading() {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-center h-screen bg-transparent">
                 <Image src={load} alt="carregando"/>
             </div>
         )

@@ -5,13 +5,14 @@ import InputAuth from "../components/auth/InputAuth"
 import Image from "next/image";
 import load from "../../public/loading.gif";
 import { useRouter } from "next/router";
+import useAppData from "../data/hook/useAppData";
 
 export default function CreateTask() {
+    const ctx = useAppData()
     const route = useRouter()
     const [erro, setErro] = useState(null)
-    const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState('')
-    const [userId, setUserId] = useState(1)
+    const [userId, setUserId] = useState(ctx.getSession()?.id)
     const [titleTask, setTitleTask] = useState('')
     const [description, setDescription] = useState('')
     const [concluded, setCconcluded] = useState(false)
@@ -21,37 +22,25 @@ export default function CreateTask() {
 
     async function createTask() {
         try {
-            setLoading(true)
-            const res = await fetch(`https://orthodox-pattie-saysystem.koyeb.app/task`, {
-                method: 'POST',
-                body: JSON.stringify(getForm()),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            if (res.ok) {
-                const data = await res.json();
-                console.log(data)
-                renderSuccess('Tarefa Criada Com sucesso!')
-            } else renderErro('Erro ao Criar Tarefa!')
+            const res = await ctx.createTask(getForm())
+            console.log(res)
+            renderSuccess('Tarefa criada com sucesso!')
             resetForm()
-            setLoading(false)
         } catch (error) {
             renderErro(error.message)
-            resetForm()
-            setLoading(false)
         }
     }
-
-    function edtTask() {
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(getForm())
-        };
-        fetch(`https://orthodox-pattie-saysystem.koyeb.app/task/${id}`, requestOptions)
-            .then(response => response.json())
-            .then(data => {route.push('/')});
+    async function getTask() {
+        if (id) {
+            const data = await ctx.getTask(id)
+            setTitleTask(data.titleTask)
+            setDescription(data.description)
+            setDateConclusion(data.date_conclusion.split('T')[0])
+            setPriority(data.priority)
+        }
+    }
+    async function edtTask() {
+        await ctx.edtTask(id, getForm())
     }
 
     function getForm(){
@@ -84,24 +73,8 @@ export default function CreateTask() {
         setDateConclusion('')
     }
     useEffect(() => { id ? getTask() : null }, [])
-    function getTask() {
-        if (id) {
-            fetch(`https://orthodox-pattie-saysystem.koyeb.app/task/${id}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log(data)
-                    setTitleTask(data.titleTask)
-                    setDescription(data.description)
-                    setDateConclusion(data.date_conclusion.split('T')[0])
-                    setPriority(data.priority)
-                })
-        }
-    }
     return (
         <Layout title="Criar Tarefa" subTitle="Aqui você vai criar suas tarefas.">
-            {loading ? (<div className="snap-center bg-gray-300 opacity-25 ">
-                <Image src={load} alt="carregando" />
-            </div>) : false}
             <div>
                 {erro ? (
                     <div className="flex items-center bg-red-400 text-white py-3 px-5 my-2 border border-red-700 rounded-lg">

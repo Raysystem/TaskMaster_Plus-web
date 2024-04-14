@@ -1,7 +1,8 @@
-import {useState } from "react";
+import { useState } from "react";
 import InputAuth from "../components/auth/InputAuth";
 import { IconCheck, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
+import router from "next/router"
 
 export default function Auth() {
     const ctx = useAppData()
@@ -25,19 +26,25 @@ export default function Auth() {
     }
     const submit = async () => {
         if (modo === 'login') {
-           try {
-               const resp = await ctx.login({ email, password })
-               console.log(resp)
-           } catch (error) {
-            console.log(error)
-           }
+            const resp = await ctx.login({ email, password })
+            if (resp.error) {
+                setEmail('')
+                setPassword('')
+                return renderErro(resp.message)
+            }
+            router.push('/')
         }
         else {
             try {
                 const resp = await ctx.cad({ name: name, email: email, password: password })
-                console.log(resp)
+                if (resp.id) {
+                    renderSuccess('Você foi cadastrado! click em entrar!')
+                    setModo("login")
+                }
             } catch (error) {
-                console.log(error)
+                renderErro('Usuario com email já cadastrado!')
+                setEmail('')
+                setPassword('')
             }
         }
     }
@@ -63,7 +70,7 @@ export default function Auth() {
                         {IconCheck}
                         <span className="ml-3 text-sm">{success}</span>
                     </div>
-                ): false}  
+                ) : false}
                 <InputAuth
                     label="Nome"
                     type="text"
@@ -86,15 +93,6 @@ export default function Auth() {
                     valueChanged={setPassword}
                     required
                 />
-                {/* <InputAuth
-                label="Confirma Senha"
-                type="password"
-                value={password}
-                notRender={true}
-                valueChanged={setPassword}
-                required
-            /> */}
-                {/*colocar onclick depois*/}
                 <button onClick={submit} className="w-full bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg px-4 py-3 mt-6">
                     {modo === 'login' ? 'Entrar' : 'Cadastrar'}
                 </button>
