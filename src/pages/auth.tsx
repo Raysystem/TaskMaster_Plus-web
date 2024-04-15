@@ -34,6 +34,7 @@ export default function Auth() {
             if (resp.error) {
                 setEmail('')
                 setPassword('')
+                setLoading(false)
                 return renderErro(resp.message)
             }
             router.push('/')

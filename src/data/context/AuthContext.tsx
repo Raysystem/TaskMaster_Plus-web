@@ -48,7 +48,6 @@ export function AppProvider(props) {
         }
     }
     async function login(user): Promise<void> {
-        setLoading(true)
         return fetch(`https://orthodox-pattie-saysystem.koyeb.app/auth`, {
             method: 'POST',
             body: JSON.stringify(user),
@@ -58,7 +57,6 @@ export function AppProvider(props) {
         }).then(res => res.json()).then(data => {
             localStorage.setItem('token', data.accessToken)
             configSession(data.user)
-            setLoading(false)
             return data
         })
     }
