@@ -1,4 +1,4 @@
-import authGuard from "../../functions/AuthGuard"
+import AuthGuard from "../../functions/authGuard"
 import Content from "./Content"
 import LateralMenu from "./LateralMenu"
 import TopBar from "./TopBar"
@@ -9,7 +9,7 @@ interface LayoutProps {
     children?: any
 }
 export default function Layout(props: LayoutProps) {
-    return authGuard (
+    return AuthGuard (
         <div className={`flex h-screen w-screen`}>
             <LateralMenu />
             <div className={`
