@@ -1,4 +1,4 @@
-import authGuard from "../../functions/authGuard"
+import authGuard from "../../functions/AuthGuard"
 import Content from "./Content"
 import LateralMenu from "./LateralMenu"
 import TopBar from "./TopBar"

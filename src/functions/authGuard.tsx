@@ -3,7 +3,7 @@ import load from "../../public/loading.gif";
 import router from "next/router";
 import Head from "next/head";
 import useAppData from "../data/hook/useAppData";
-export default function authGuard(jsx) {
+export default function AuthGuard(jsx) {
     const ctx = useAppData()
     function renderCont() {
         return (
