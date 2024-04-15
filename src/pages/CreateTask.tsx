@@ -120,7 +120,7 @@ export default function CreateTask() {
                     />
                 </div>
                 <div className="w-full md:w-1/4 flex flex-col mt-4">
-                    <label className="text-white">Nivel de Prioridade</label>
+                    <label className="text-black">Nivel de Prioridade</label>
                     <select
                         value={priority}
                         onChange={(e) => {
