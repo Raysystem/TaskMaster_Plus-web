@@ -9,20 +9,14 @@ interface LayoutProps {
     children?: any
 }
 export default function Layout(props: LayoutProps) {
-    return AuthGuard (
-        <div className={`flex h-screen w-screen`}>
+    return AuthGuard(
+        <div className="flex w-screen bg-stone-100">
             <LateralMenu />
-            <div className={`
-            flex
-            flex-col
-             w-full
-             p-7
-             bg-gray-100
-             `}>
-            <TopBar title={props.title} subTitle={props.subTitle} />
+            <div className="flex flex-col p-7 w-screen h-full">
+                <TopBar title={props.title} subTitle={props.subTitle} />
                 <Content>
-                {props.children}
-            </Content>
+                    {props.children}
+                </Content>
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/template/Layout";
-import { IconCheck, IconPen, IconTrash, IconWarning } from "../components/icons";
+import { IconCheck, IconPen, IconPlay, IconTrash, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
 
 export default function Home() {
@@ -39,8 +39,7 @@ export default function Home() {
     if (tasks.length) {
       return tasks.map((task, i) => {
         return (
-          <div key={task.id} className={`items - center py-3 px-5 my-2 border ${task.status === 0 ? 'border-yellow-500' : null} rounded-lg`} >
-            {/* <div key={task.id} className="w-full items-center py-3 px-5 my-2 ml-1 border border-gray-500 rounded-lg"> */}
+          <div key={task.id} className={`items-center bg-white py-3 px-5 my-2 border ${task.status === 0 ? 'border-yellow-500' : null} rounded-lg`} >
             <span className="ml-3 text-gray table-auto">#{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
               <div className="flex flex-row my-.2">
                 ID: {task.id} <br />
@@ -65,10 +64,11 @@ export default function Home() {
               </div>
               <hr className="my-3" />
               <div className="grid grid-rows-1 md:grid-cols-3 gap-4 mt-3">
-              {task.status === 2 ? (<button disabled className="bg-green-400 rounded-lg px-3 py-1">{IconCheck}</button>) : null}
+                {/* {task.status === 0 ? (<button disabled className="bg-indigo-400 rounded-lg px-3 py-1">{IconPlay}</button>) : null} */}
+                {task.status === 2 ? (<button disabled className="bg-green-400 rounded-lg px-3 py-1">{IconCheck}</button>) : null}
               {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks)} className="bg-green-400 rounded-lg px-3 py-1">Finalizar Tarefa</button>):null}
-                <button onClick={() => del(task.id)} className="bg-red-400 rounded-lg px-3 py-1 ml-2 items-center justify-center">{IconTrash}</button>
-              {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-indigo-400 rounded-lg px-3 py-1">{IconPen}</button>) : null}
+                {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg px-3 py-1">{IconPen}</button>) : null}
+                <button onClick={() => del(task.id)} className="items-center justify-center bg-red-400 rounded-lg px-3 py-1 ml-2">{IconTrash}</button>
               </div>
             </span>
           </div>

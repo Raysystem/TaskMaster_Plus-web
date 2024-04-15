@@ -134,7 +134,6 @@ export default function CreateTask() {
                     </select>
                 </div>
             </div>
-            <hr className="mt-3 border-gray-700" />
             {
                 !id ? (
                     <button onClick={createTask} className="bg-red-500 hover:bg-red-400 text-white rounded-lg px-4 py-3 mt-3">

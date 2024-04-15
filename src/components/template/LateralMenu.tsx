@@ -6,11 +6,9 @@ import MenuItem from "./Menuitem";
 export default function LateralMenu() {
     const ctx = useAppData()
     return (
-        <aside className={`flex flex-col h-screen`}>
-            <div className={`
-            flex flex-col items-center justify-center
-            bg-gradient-to-r from-indigo-500 to-purple-800
-            h-20 w-20`}>
+        <div className="flex flex-col h-screen w-20 bg-white" >
+        <aside className="fixed flex flex-col h-screen bg-white">
+            <div className="flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-800 h-20 w-20">
                 <Logo/>
             </div>
             <ul className="flex-grow">
@@ -21,5 +19,6 @@ export default function LateralMenu() {
                 <MenuItem click={ctx.logout} text="Sair" icon={IconLogout}/>
             </ul>
         </aside>
+        </div>
     )
 }

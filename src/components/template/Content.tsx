@@ -3,9 +3,7 @@ interface ContentProps {
 }
 export default function Content(props: ContentProps) {
     return (
-        <div className={`
-        h-dvh flex flex-col mt-7
-        `}>
+        <div className="flex flex-col w-sreen mt-7">
            {props.children}
         </div>
     )
