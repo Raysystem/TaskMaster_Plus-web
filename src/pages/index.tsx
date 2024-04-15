@@ -40,7 +40,7 @@ export default function Home() {
       return tasks.map((task, i) => {
         return (
           <div key={task.id} className={`items-center bg-white py-3 px-5 my-2 border ${task.status === 0 ? 'border-yellow-500' : null} rounded-lg`} >
-            <span className="ml-3 text-gray table-auto">#{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
+            <div className="ml-3 text-slate-800 table-auto">#{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
               <div className="flex flex-row my-.2">
                 ID: {task.id} <br />
               </div>
@@ -70,7 +70,7 @@ export default function Home() {
                 {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg px-3 py-1">{IconPen}</button>) : null}
                 <button onClick={() => del(task.id)} className="items-center justify-center bg-red-400 rounded-lg px-3 py-1 ml-2">{IconTrash}</button>
               </div>
-            </span>
+            </div>
           </div>
         )
       })

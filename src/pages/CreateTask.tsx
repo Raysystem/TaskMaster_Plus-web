@@ -120,13 +120,13 @@ export default function CreateTask() {
                     />
                 </div>
                 <div className="w-full md:w-1/4 flex flex-col mt-4">
-                    <label className="text-black">Nivel de Prioridade</label>
+                    <label className="text-slate-800">Nivel de Prioridade</label>
                     <select
                         value={priority}
                         onChange={(e) => {
                             setPriority(Number(e.target.value));
                         }}
-                        className='px-4 py-3 rounded-lg bg-gray-200 text-black mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none'
+                        className='px-4 py-3 rounded-lg bg-gray-200 text-slate-800 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none'
                     >
                         <option value={1}>ALTA</option>
                         <option value={2}>MÉDIA</option>
