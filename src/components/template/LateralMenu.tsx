@@ -6,7 +6,7 @@ import MenuItem from "./Menuitem";
 export default function LateralMenu() {
     const ctx = useAppData()
     return (
-        <aside className={`flex flex-col fixed`}>
+        <aside className={`flex flex-col h-screen`}>
             <div className={`
             flex flex-col items-center justify-center
             bg-gradient-to-r from-indigo-500 to-purple-800
