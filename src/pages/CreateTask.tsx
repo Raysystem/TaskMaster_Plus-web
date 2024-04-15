@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
 import { IconCheck, IconWarning } from "../components/icons"
 import Layout from "../components/template/Layout"
-import InputAuth from "../components/auth/InputAuth"
-import Image from "next/image";
-import load from "../../public/loading.gif";
+import InputAuth from "../components/auth/InputAuth";
 import { useRouter } from "next/router";
 import useAppData from "../data/hook/useAppData";
 
@@ -16,6 +14,7 @@ export default function CreateTask() {
     const [titleTask, setTitleTask] = useState('')
     const [description, setDescription] = useState('')
     const [concluded, setCconcluded] = useState(false)
+    const [status, setStatus] = useState(0)
     const [date_conclusion, setDateConclusion] = useState('')
     const [priority, setPriority] = useState(1)
     const id = route.query.id
@@ -24,8 +23,10 @@ export default function CreateTask() {
         try {
             const res = await ctx.createTask(getForm())
             console.log(res)
-            renderSuccess('Tarefa criada com sucesso!')
-            resetForm()
+            if (!res.message) {        
+                renderSuccess('Tarefa criada com sucesso!')
+                resetForm()
+            }
         } catch (error) {
             renderErro(error.message)
         }
@@ -49,6 +50,7 @@ export default function CreateTask() {
             titleTask,
             description,
             concluded,
+            status,
             date_conclusion,
             priority
         }
