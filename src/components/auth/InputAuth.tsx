@@ -15,7 +15,7 @@ export default function InputAuth(props:InputAuthProps) {
                 value={props.value}
                 onChange={e => props.valueChanged?.(e.target.value)}
                 required={props.required}
-                className='w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:outline-none'
+                className='w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border text-gray-500 focus:border-blue-500 focus:bg-white focus:outline-none'
             />
         </div>
     )
