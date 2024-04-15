@@ -142,10 +142,14 @@ export function AppProvider(props) {
             .then(response => response.json())
             .then(data => { setLoading(false); router.push('/') });
     }
-    function checkCloncluded(id, tasks) {
+    function checkCloncluded(id:number, tasks:any, concluded:boolean, status:number = 1) {
         setLoading(true)
         const obj = tasks.find(t => t.id === id)
-        obj.concluded = true
+        if (concluded) {
+            obj.concluded = true
+            obj.status = 2
+        }
+        else obj.status = status
         const requestOptions = {
             method: 'PUT',
             headers: {

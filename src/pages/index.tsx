@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/template/Layout";
-import { IconCheck, IconPen, IconPlay, IconTrash, IconWarning } from "../components/icons";
+import { IconCheck, IconEnd, IconPen, IconPlay, IconTrash, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
 
 export default function Home() {
@@ -39,9 +39,23 @@ export default function Home() {
     if (tasks.length) {
       return tasks.map((task, i) => {
         return (
-          <div key={task.id} className={`items-center bg-white py-3 px-5 my-2 border ${task.status === 0 ? 'border-yellow-500' : null} rounded-lg`} >
-            <div className="ml-3 text-slate-800 table-auto">#{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
-              <div className="flex flex-row my-.2">
+          <div key={task.id} className={`items-center bg-white p-2 border ${task.status === 0 ? 'border-yellow-500' : null} ${task.status === 1 ? 'border-indigo-400' : null} ${task.status === 2 ? 'border-lime-600' : null} rounded-lg`} >
+            <div className="text-slate-800">
+              <span className="grid grid-cols-2">
+                <div>
+              #{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
+                </div>
+                {task.status === 0 ? (<button disabled className="bg-yellow-500 p-1 rounded-lg h-8">
+                  PENDENTE
+                </button>):null}
+                {task.status === 1 ? (<button disabled className="bg-indigo-400 p-1 rounded-lg h-8">
+                  EM ANDAMENTO
+                </button>) : null}
+                {task.status === 2 ? (<button disabled className="bg-lime-600 p-1 rounded-lg h-8">
+                  CONCLUÍDA
+                </button>) : null}
+              </span>
+              <div className="my-.2">
                 ID: {task.id} <br />
               </div>
               <div className="flex flex-row my-.2">
@@ -50,25 +64,29 @@ export default function Home() {
               <div className="flex flex-row my-1">
                 Data Conclusão: {(task.date_conclusion).substr(0, 10).split('-').reverse().join('/')} <br />
               </div>
-              <div className="w-full flex flex-row my-.2">
+              <div className="grid grid-cols-2">
+                <div>
                 Prioridade:
-                <span>
+                </div>
+                <div>
+                  <span className="float-end">
                   {task.priority === 1 ? (<button disabled className="bg-red-400 rounded-lg px-3 py-1 ml-2">ALTA</button>) : null}
                 </span>
-                <span>
+                  <span className="float-end">
                   {task.priority === 2 ? (<button disabled className="bg-yellow-400 rounded-lg px-3 py-1 ml-2">MÉDIA</button>) : null}
                 </span>
-                <span>
+                  <span className="float-end">
                   {task.priority === 3 ? (<button disabled className="bg-indigo-400 rounded-lg px-3 py-1">BAIXA</button>) : null}
                 </span>
+                </div>
               </div>
-              <hr className="my-3" />
+              <hr className="my-3"/>
               <div className="grid grid-rows-1 md:grid-cols-3 gap-4 mt-3">
-                {/* {task.status === 0 ? (<button disabled className="bg-indigo-400 rounded-lg px-3 py-1">{IconPlay}</button>) : null} */}
-                {task.status === 2 ? (<button disabled className="bg-green-400 rounded-lg px-3 py-1">{IconCheck}</button>) : null}
-              {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks)} className="bg-green-400 rounded-lg px-3 py-1">Finalizar Tarefa</button>):null}
-                {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg px-3 py-1">{IconPen}</button>) : null}
-                <button onClick={() => del(task.id)} className="items-center justify-center bg-red-400 rounded-lg px-3 py-1 ml-2">{IconTrash}</button>
+                {task.status === 0 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks, false, 1)} className="bg-indigo-400 rounded-lg py-1 px-1">{IconPlay}</button>) : null}
+                {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks, true)} className="bg-lime-600 rounded-lg py-1 px-1">{IconEnd}</button>):null}
+                {task.status === 2 ? (<button disabled className="bg-lime-600  rounded-lg py-1 px-1">{IconCheck}</button>) : null}
+                {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg py-1 px-1">{IconPen}</button>) : null}
+                <button onClick={() => del(task.id)} className="items-center justify-center bg-red-400 rounded-lg py-1 px-1">{IconTrash}</button>
               </div>
             </div>
           </div>
