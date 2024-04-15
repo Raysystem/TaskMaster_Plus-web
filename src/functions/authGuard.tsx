@@ -1,9 +1,9 @@
 import Image from "next/image";
 import load from "../../public/loading.gif";
 import router from "next/router";
-import Head from "next/head";
 import useAppData from "../data/hook/useAppData";
-export default function AuthGuard(jsx:any) {
+import Head from "next/head";
+export default function AuthGuard(jsx) {
     const ctx = useAppData()
     function renderCont() {
         return (
@@ -16,7 +16,6 @@ export default function AuthGuard(jsx:any) {
                         }
                         `
                     }}>
-
                     </script>
                 </Head>
             {jsx}
