@@ -72,7 +72,7 @@ export default function CreateTask() {
         setDescription('')
         setDateConclusion('')
     }
-    useEffect(() => { id ? getTask() : null }, [])
+    useEffect(() => {getTask()}, [])
     return (
         <Layout title="Criar Tarefa" subTitle="Aqui você vai criar suas tarefas.">
             <div>

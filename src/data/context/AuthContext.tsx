@@ -50,7 +50,6 @@ export function AppProvider(props) {
     async function login(user): Promise<void> {
         setLoading(true)
         return fetch(`https://orthodox-pattie-saysystem.koyeb.app/auth`, {
-        // const res = await fetch(`http://localhost:8080/auth`, {
             method: 'POST',
             body: JSON.stringify(user),
             headers: {
@@ -65,7 +64,6 @@ export function AppProvider(props) {
     }
     async function cad(user): Promise<void> {
         setLoading(true)
-        // const resp = await fetch(`http://localhost:8080/user`, {
             const resp = await fetch(`https://orthodox-pattie-saysystem.koyeb.app/user`, {
             method: 'POST',
             body: JSON.stringify(user),
@@ -93,7 +91,6 @@ export function AppProvider(props) {
     //fim das funçoes de sessao e login
     function getTasks(): Promise<void> {
         setLoading(true)
-        // return fetch('http://localhost:8080/task', {
             return fetch('https://orthodox-pattie-saysystem.koyeb.app/task',{
             headers: {
                 Authorization: `${localStorage.getItem('token')}`,
@@ -122,7 +119,6 @@ export function AppProvider(props) {
     }
     async function createTask(form): Promise<void> {
         setLoading(true)
-        // return fetch('http://localhost:8080/task', {
             return fetch(`https://orthodox-pattie-saysystem.koyeb.app/task`, {
             method: 'POST',
             headers: {
