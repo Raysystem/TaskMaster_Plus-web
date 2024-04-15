@@ -124,7 +124,7 @@ export default function CreateTask() {
                         onChange={(e) => {
                             setPriority(Number(e.target.value));
                         }}
-                        className='px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none'
+                        className='px-4 py-3 rounded-lg bg-gray-200 text-black mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none'
                     >
                         <option value={1}>ALTA</option>
                         <option value={2}>MÉDIA</option>
