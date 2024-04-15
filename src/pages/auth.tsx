@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputAuth from "../components/auth/InputAuth";
 import { IconCheck, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
@@ -56,6 +56,10 @@ export default function Auth() {
             }
         }
     }
+    useEffect(() => {
+        const user = localStorage.getItem('token')
+        if(user) router.push('/')
+    },[])
     if (!loading) {
         return (
             <div className="flex h-screen items-center justify-center">
