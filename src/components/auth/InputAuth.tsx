@@ -9,7 +9,7 @@ interface InputAuthProps {
 export default function InputAuth(props:InputAuthProps) {
     return props.notRender ? null : (
         <div className="w-full flex flex-col mt-4">
-            <label>{props.label}</label>
+            <label className="text-black">{props.label}</label>
             <input
                 type={props.type ?? 'text'}
                 value={props.value}
