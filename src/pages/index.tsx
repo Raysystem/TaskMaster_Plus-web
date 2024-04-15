@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import Layout from "../components/template/Layout";
 import { IconCheck, IconPen, IconTrash, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
-// import Drag from "../components/drag";
 
 export default function Home() {
   const ctx = useAppData()
   const [erro, setErro] = useState(null)
   const [success, setSuccess] = useState('')
   const [tasks, setTasks] = useState([])
-  useEffect(() => { getTasks()
+  useEffect(() => {
+    console.log(ctx.user)
+    if (ctx.user) getTasks()
   }, [])
   async function getTasks() {
     const resp = await ctx.getTasks()

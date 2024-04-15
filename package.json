@@ -13,12 +13,11 @@
     "js-cookie": "^3.0.5",
     "next": "14.2.0",
     "react": "^18",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "20.12.7",
-    "@types/react": "^18.2.77",
+    "@types/react": "^18.2.78",
     "autoprefixer": "^10.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.2.0",
