@@ -12,7 +12,7 @@ export default function Layout(props: LayoutProps) {
     return AuthGuard(
         <div className="flex w-screen bg-stone-100">
             <LateralMenu />
-            <div className="flex flex-col p-5 w-screen h-full">
+            <div className="flex flex-col w-screen p-4 pr-8 h-full">
                 <TopBar title={props.title} subTitle={props.subTitle} />
                 <Content>
                     {props.children}

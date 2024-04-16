@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Layout from "../components/template/Layout";
 import { IconCheck, IconEnd, IconPen, IconPlay, IconTrash, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
+
+const getItems = () =>
+  Array(20)
+    .fill(0)
+    .map((_, ind) => ({ id: `element-${ind}` }));
 
 export default function Home() {
   const ctx = useAppData()
   const [erro, setErro] = useState(null)
   const [success, setSuccess] = useState('')
   const [tasks, setTasks] = useState([])
-  useEffect(() => { getTasks()}, [])
+  useEffect(() => { getTasks() }, [])
   async function getTasks() {
     const resp = await ctx.getTasks()
     if (resp.error) renderErro('Lista vazia Clique em "Criar Tarefa"!', 7000)
@@ -23,9 +28,6 @@ export default function Home() {
     setTimeout(() => {
       setErro(null)
     }, timeMs);
-  }
-  async function resetList() {
-    
   }
   function renderSuccess(msg, timeMs = 5000) {
     setSuccess(msg)
@@ -78,8 +80,8 @@ export default function Home() {
               </div>
             </div>
             <hr className="my-3" />
-            <div className="grid grid-rows-1 md:grid-cols-3 gap-4 mt-3">
-              {task.status === 0 ? (<button onClick={() => { ctx.checkCloncluded(task.id, tasks, false, 1)}} className="bg-indigo-400 rounded-lg py-1 px-1">{IconPlay}</button>) : null}
+            <div className="grid grid-rows-1 grid-cols-3 gap-4 justify-between mt-3">
+              {task.status === 0 ? (<button onClick={() => { ctx.checkCloncluded(task.id, tasks, false, 1) }} className="bg-indigo-400 rounded-lg py-1 px-1">{IconPlay}</button>) : null}
               {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks, true)} className="bg-lime-600 rounded-lg py-1 px-1">{IconEnd}</button>) : null}
               {task.status === 2 ? (<button disabled className="bg-lime-600  rounded-lg py-1 px-1">{IconCheck}</button>) : null}
               {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg py-1 px-1">{IconPen}</button>) : null}
@@ -94,26 +96,29 @@ export default function Home() {
     let listResult = []
     if (tasks.length) {
       if (list === 'pendente') {
-        listResult = tasks.map(t=> {
-          if(t.status === 0) return t
+        listResult = tasks.map(t => {
+          if (t.status === 0) return t
         })
         listResult = returnFiltered(listResult)
-        return <>{card(listResult)}</>
       }
       if (list === 'emandamento') {
         listResult = tasks.map(t => {
           if (t.status === 1) return t
         })
         listResult = returnFiltered(listResult)
-        return <>{card(listResult)}</>
       }
       if (list === 'concluded') {
         listResult = tasks.map(t => {
           if (t.status === 2) return t
         })
         listResult = returnFiltered(listResult)
-        return <>{card(listResult)}</>
       }
+      if (listResult.length) return (
+        <div className="flex-shrink-0 rounded-lg bg-white p-3 mr-3" style={{width: "20rem"}}>
+          {card(listResult)
+        }</div>
+      )
+      else null
     }
   }
 
@@ -121,6 +126,15 @@ export default function Home() {
     return array.filter(function (element) {
       return element !== undefined;
     })
+  }
+
+  const [scrollPosition, setScrollPosition] = useState(0)
+  const containerRef = useRef(null)
+  const handleScroll = (scrollAmount) => {
+    // let newScrollPosition = scrollPosition + scrollAmount
+    // console.log(newScrollPosition, scrollPosition, scrollAmount)
+    // setScrollPosition(newScrollPosition)
+    containerRef.current.scrollLeft = scrollAmount
   }
 
   return (
@@ -142,16 +156,15 @@ export default function Home() {
           </div>
         ) : false}
       </div>
-      <div className="grid grid-rows-1 md:grid-cols-3 gap-4 mt-3">
-        <div className="bg-white p-3 rounded-lg">
+      <div className="flex h-sreen justify-around overflow-x-auto mt-4" ref={containerRef}>
           {renderList('pendente')}
-        </div>
-        <div className="bg-white p-3 rounded-lg">
           {renderList('emandamento')}
-        </div>
-        <div className="bg-white p-3 rounded-lg">
           {renderList('concluded')}
-        </div>
+      </div>
+      <div style={{ position: "fixed", justifyContent: 'center', alignItems: 'center', justifyItems: 'center', background: 'white', bottom: 0, width: '100%' }}>
+        <button onClick={() => handleScroll(0)}>Tela 1</button>
+        <button onClick={() => handleScroll(300)}>tela 2</button>
+        <button onClick={() => handleScroll(900)}>leta 3</button>
       </div>
     </Layout>
   );
