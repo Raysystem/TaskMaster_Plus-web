@@ -137,13 +137,8 @@ export default function Home() {
       return element !== undefined;
     })
   }
-
-  const [scrollPosition, setScrollPosition] = useState(0)
   const containerRef = useRef(null)
   const handleScroll = (scrollAmount) => {
-    // let newScrollPosition = scrollPosition + scrollAmount
-    // console.log(newScrollPosition, scrollPosition, scrollAmount)
-    // setScrollPosition(newScrollPosition)
     containerRef.current.scrollLeft = scrollAmount
   }
 
@@ -173,19 +168,19 @@ export default function Home() {
       </div>
       {sizeView < 1080 ? <div className="flex w-sreen" style={{ position: "fixed", justifyContent: 'center', alignItems: 'center', justifyItems: 'center', right: 0, bottom: 10, width: '100%' }}>
         <button onClick={() => handleScroll(0)} className="bg-white rounded-lg">
-          <span className="justify-items-center">
+          <div className="justify-items-center text-black">
             {IconView}
-          </span>
+          </div>
         </button>
-        <button onClick={() => handleScroll(330)} className="mr-4 ml-4 bg-white rounded-lg">
-          <span className="justify-items-center">
+        <button onClick={() => handleScroll(300)} className="mr-4 ml-4 bg-white rounded-lg">
+          <div className="justify-items-center text-black">
             {IconView}
-          </span>
+          </div>
         </button>
         <button onClick={() => handleScroll(930)} className="bg-white rounded-lg">
-          <p className="justify-items-center">
+          <div className="justify-items-center text-black">
             {IconView}
-          </p>
+          </div>
         </button>
       </div> : null}
     </Layout>
