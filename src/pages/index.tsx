@@ -172,7 +172,7 @@ export default function Home() {
             {IconView}
           </div>
         </button>
-        <button onClick={() => handleScroll(300)} className="mr-4 ml-4 bg-white rounded-lg">
+        <button onClick={() => handleScroll(330)} className="mr-4 ml-4 bg-white rounded-lg">
           <div className="justify-items-center text-indigo-400">
             {IconView}
           </div>
