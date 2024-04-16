@@ -166,20 +166,20 @@ export default function Home() {
           {renderList('concluded')}
       </div>
       {sizeView < 1080 ? <div className="flex w-sreen" style={{ position: "fixed", justifyContent: 'center', alignItems: 'center', justifyItems: 'center', right: 0, bottom: 10, width: '100%' }}>
-        <button onClick={() => handleScroll(0)} className="mr-2">
-          <span className="justify-items-center bg-gray-500 rounded-lg">
+        <button onClick={() => handleScroll(0)} className="bg-white rounded-lg">
+          <span className="justify-items-center">
             {IconView}
           </span>
         </button>
-        <button onClick={() => handleScroll(330)} className="mr-2">
-          <span className="justify-items-center bg-gray-500 rounded-lg">
+        <button onClick={() => handleScroll(330)} className="mr-4 ml-4 bg-white rounded-lg">
+          <span className="justify-items-center">
             {IconView}
           </span>
         </button>
-        <button onClick={() => handleScroll(930)} className="mr-2">
-          <span className="justify-items-center bg-gray-500 rounded-lg">
+        <button onClick={() => handleScroll(930)} className="bg-white rounded-lg">
+          <p className="justify-items-center">
             {IconView}
-          </span>
+          </p>
         </button>
       </div> : null}
     </Layout>
