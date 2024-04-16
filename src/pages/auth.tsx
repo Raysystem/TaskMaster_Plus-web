@@ -63,7 +63,7 @@ export default function Auth() {
     },[])
     if (!loading) {
         return (
-            <div className="flex h-screen items-center justify-center">
+            <div className="flex h-screen items-center justify-center bg-stone-100">
                 <div className="hidden md:block md:w-1/2">
                     <img
                         src="https://source.unsplash.com/random"
