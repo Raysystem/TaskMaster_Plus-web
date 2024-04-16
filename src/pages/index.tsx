@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Layout from "../components/template/Layout";
-import { IconCheck, IconEnd, IconPen, IconPlay, IconTrash, IconWarning } from "../components/icons";
+import { IconCheck, IconEnd, IconPen, IconPlay, IconTrash, IconView, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
 
 const getItems = () =>
@@ -11,9 +11,13 @@ const getItems = () =>
 export default function Home() {
   const ctx = useAppData()
   const [erro, setErro] = useState(null)
+  const [sizeView, setSizeView] = useState(null)
   const [success, setSuccess] = useState('')
   const [tasks, setTasks] = useState([])
-  useEffect(() => { getTasks() }, [])
+  useEffect(() => {
+    getTasks()
+    setSizeView(window.innerWidth)
+  }, [])
   async function getTasks() {
     const resp = await ctx.getTasks()
     if (resp.error) renderErro('Lista vazia Clique em "Criar Tarefa"!', 7000)
@@ -161,11 +165,23 @@ export default function Home() {
           {renderList('emandamento')}
           {renderList('concluded')}
       </div>
-      <div style={{ position: "fixed", justifyContent: 'center', alignItems: 'center', justifyItems: 'center', background: 'white', bottom: 0, width: '100%' }}>
-        <button onClick={() => handleScroll(0)}>Tela 1</button>
-        <button onClick={() => handleScroll(300)}>tela 2</button>
-        <button onClick={() => handleScroll(900)}>leta 3</button>
-      </div>
+      {sizeView < 1080 ? <div className="flex w-sreen" style={{ position: "fixed", justifyContent: 'center', alignItems: 'center', justifyItems: 'center', right: 0, bottom: 10, width: '100%' }}>
+        <button onClick={() => handleScroll(0)} className="mr-2">
+          <span className="justify-items-center bg-gray-500 rounded-lg">
+            {IconView}
+          </span>
+        </button>
+        <button onClick={() => handleScroll(330)} className="mr-2">
+          <span className="justify-items-center bg-gray-500 rounded-lg">
+            {IconView}
+          </span>
+        </button>
+        <button onClick={() => handleScroll(930)} className="mr-2">
+          <span className="justify-items-center bg-gray-500 rounded-lg">
+            {IconView}
+          </span>
+        </button>
+      </div> : null}
     </Layout>
   );
 }
