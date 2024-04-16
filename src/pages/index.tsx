@@ -48,7 +48,7 @@ export default function Home() {
   function card(array) {
     return array.map((task, i) => {
       return (
-        <div key={task.id} className={`items-center bg-white p-2 border mb-2 ${task.status === 0 ? 'border-yellow-500' : null} ${task.status === 1 ? 'border-indigo-400' : null} ${task.status === 2 ? 'border-lime-600' : null} rounded-lg`} >
+        <div key={task.id} className={`items-center bg-white p-2 border mb-2 ${task.status === 0 ? 'border-yellow-500' : null} ${task.status === 1 ? 'border-indigo-400' : null} ${task.status === 2 ? 'border-green-300' : null} rounded-lg`} >
           <div className="text-slate-800">
             <span className="grid grid-cols-2">
               <div>
@@ -60,7 +60,7 @@ export default function Home() {
               {task.status === 1 ? (<button disabled className="bg-indigo-400 p-1 rounded-lg h-8">
                 EM ANDAMENTO
               </button>) : null}
-              {task.status === 2 ? (<button disabled className="bg-lime-600 p-1 rounded-lg h-8">
+              {task.status === 2 ? (<button disabled className="bg-green-300 p-1 rounded-lg h-8">
                 CONCLUÍDA
               </button>) : null}
             </span>
@@ -92,8 +92,8 @@ export default function Home() {
             <hr className="my-3" />
             <div className="grid grid-rows-1 grid-cols-3 gap-4 justify-between mt-3">
               {task.status === 0 ? (<button onClick={() => { ctx.checkCloncluded(task.id, tasks, false, 1) }} className="bg-indigo-400 rounded-lg py-1 px-1">{IconPlay}</button>) : null}
-              {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks, true)} className="bg-lime-600 rounded-lg py-1 px-1">{IconEnd}</button>) : null}
-              {task.status === 2 ? (<button disabled className="bg-lime-600  rounded-lg py-1 px-1">{IconCheck}</button>) : null}
+              {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks, true)} className="bg-green-300 rounded-lg py-1 px-1">{IconEnd}</button>) : null}
+              {task.status === 2 ? (<button disabled className="bg-green-300  rounded-lg py-1 px-1">{IconCheck}</button>) : null}
               {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg py-1 px-1">{IconPen}</button>) : null}
               <button onClick={() => del(task.id)} className="items-center justify-center bg-red-400 rounded-lg py-1 px-1">{IconTrash}</button>
             </div>
@@ -124,9 +124,9 @@ export default function Home() {
         listResult = returnFiltered(listResult)
       }
       if (listResult.length) return (
-        <div className="flex-shrink-0 rounded-lg bg-white p-3 mr-3" style={{width: getSizeCard()}}>
+        <div className="flex-shrink-0 rounded-lg bg-white p-3 mr-3" style={{ width: getSizeCard() }}>
           {card(listResult)
-        }</div>
+          }</div>
       )
       else null
     }
@@ -162,23 +162,23 @@ export default function Home() {
         ) : false}
       </div>
       <div className="flex h-sreen justify-around overflow-x-auto mt-4" ref={containerRef}>
-          {renderList('pendente')}
-          {renderList('emandamento')}
-          {renderList('concluded')}
+        {renderList('pendente')}
+        {renderList('emandamento')}
+        {renderList('concluded')}
       </div>
       {sizeView < 1080 ? <div className="flex w-sreen" style={{ position: "fixed", justifyContent: 'center', alignItems: 'center', justifyItems: 'center', right: 0, bottom: 10, width: '100%' }}>
         <button onClick={() => handleScroll(0)} className="bg-white rounded-lg">
-          <div className="justify-items-center text-black">
+          <div className="justify-items-center text-orange-400">
             {IconView}
           </div>
         </button>
         <button onClick={() => handleScroll(300)} className="mr-4 ml-4 bg-white rounded-lg">
-          <div className="justify-items-center text-black">
+          <div className="justify-items-center text-indigo-400">
             {IconView}
           </div>
         </button>
         <button onClick={() => handleScroll(930)} className="bg-white rounded-lg">
-          <div className="justify-items-center text-black">
+          <div className="justify-items-center text-green-700">
             {IconView}
           </div>
         </button>
