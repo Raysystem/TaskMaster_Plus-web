@@ -42,8 +42,8 @@ export default function Home() {
   function getSizeCard() {
     console.log(sizeView)
     if (sizeView > 1400) return "25rem"
-    if (sizeView < 1400 && sizeView > 1100) return "20rem"
-    if (sizeView < 1100) return "18rem"
+    if (sizeView < 1400) return "20rem"
+    // if (sizeView < 1100) return "18rem"
   }
   function card(array) {
     return array.map((task, i) => {
