@@ -72,7 +72,7 @@ export default function Auth() {
                     />
                 </div>
                 <div className="m-10 w-full md:w-1/2">
-                    <h1 className="text-2xl font-bold mb-5">{modo === 'login' ? 'Entre Com a Sua Conta' : 'Cadastre-se na Plataforma'}</h1>
+                    <h1 className="text-2xl font-bold text-black mb-5">{modo === 'login' ? 'Entre Com a Sua Conta' : 'Cadastre-se na Plataforma'}</h1>
                     {erro ? (
                         <div className="flex items-center bg-red-400 text-white py-3 px-5 my-2 border border-red-700 rounded-lg">
                             {IconWarning}
@@ -116,13 +116,13 @@ export default function Auth() {
                 </button> */}
                     {modo === 'login' ? (
                         <p className="mt-8">
-                            Novo por aqui?
+                            <span className="text-black">Novo por aqui?</span> 
                             <a onClick={() => setModo('register')} className="text-blue-500 hover:text-blue-700 font-semibold cursor-pointer"> Crie uma conta gratuitamente.
                             </a>
                         </p>
                     ) : (
                         <p className="mt-8">
-                            Já faz parte da nossa comunidade?
+                            <span className="text-black">Já faz parte da nossa comunidade?</span> 
                             <a onClick={() => setModo('login')} className="text-blue-500 hover:text-blue-700 font-semibold cursor-pointer"> Entre com a sua conta
                             </a>
 
