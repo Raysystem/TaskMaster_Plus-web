@@ -39,6 +39,12 @@ export default function Home() {
       setSuccess(null)
     }, timeMs);
   }
+  function getSizeCard() {
+    console.log(sizeView)
+    if (sizeView > 1400) return "25rem"
+    if (sizeView < 1400 && sizeView > 1100) return "20rem"
+    if (sizeView < 1100) return "15rem"
+  }
   function card(array) {
     return array.map((task, i) => {
       return (
@@ -118,7 +124,7 @@ export default function Home() {
         listResult = returnFiltered(listResult)
       }
       if (listResult.length) return (
-        <div className="flex-shrink-0 rounded-lg bg-white p-3 mr-3" style={{width: "20rem"}}>
+        <div className="flex-shrink-0 rounded-lg bg-white p-3 mr-3" style={{width: getSizeCard()}}>
           {card(listResult)
         }</div>
       )
