@@ -1,4 +1,5 @@
 import AuthGuard from "../../functions/authGuard"
+import AvatarUsuario from "./AvatarUsuario"
 import Content from "./Content"
 import LateralMenu from "./LateralMenu"
 import TopBar from "./TopBar"
@@ -12,7 +13,7 @@ export default function Layout(props: LayoutProps) {
     return AuthGuard(
         <div className="flex w-screen bg-stone-100">
             <LateralMenu />
-            <div className="flex flex-col w-screen pl-2 pt-4 pr-2 h-full">
+            <div className="flex flex-col w-screen pl-2 pt-4 pr-4 h-full">
                 <TopBar title={props.title} subTitle={props.subTitle} />
                 <Content>
                     {props.children}

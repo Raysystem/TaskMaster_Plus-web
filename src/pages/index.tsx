@@ -161,7 +161,7 @@ export default function Home() {
           </div>
         ) : false}
       </div>
-      <div className="flex h-sreen justify-around overflow-x-auto mt-4" ref={containerRef}>
+      <div className="flex h-sreen justify-around overflow-x-auto" ref={containerRef}>
         {renderList('pendente')}
         {renderList('emandamento')}
         {renderList('concluded')}

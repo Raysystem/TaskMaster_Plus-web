@@ -17,7 +17,10 @@ const AppContext = createContext({
     del: null,
     createTask: null,
     edtTask: null,
-    getTask: null
+    getTask: null,
+    validateEmail: null,
+    sendEmail:null
+
 })
 function cookie(logado: boolean) {
     if (logado) {
@@ -86,6 +89,13 @@ export function AppProvider(props) {
     function getSession() {
         return user
     }
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
     //fim das funçoes de sessao e login
     function getTasks(): Promise<void> {
         setLoading(true)
@@ -98,7 +108,7 @@ export function AppProvider(props) {
             .then((res) => res.json())
                 .then((data) => {
                 setLoading(false)
-                return data;
+                return data.reverse();
                 }).catch(err => { setLoading(false); return err });
     }
     async function getTask(id): Promise<void> {
@@ -126,7 +136,7 @@ export function AppProvider(props) {
             body: JSON.stringify(form)
         })
             .then((response) => response.json())
-                .then((data) => { setLoading(false); return data });
+                .then((data) => { setLoading(false); router.push('/'); return data });
     }
     function edtTask(id, form): Promise<void> {
         setLoading(true)
@@ -179,7 +189,24 @@ export function AppProvider(props) {
     function goTo(route = '/CreateTask') {
         router.push(route)
     }
-
+    async function sendEmail(email, name):Promise<void> {
+        setLoading(true)
+        const obj = { 
+            email,
+            name,
+            link: 'https://task-master-plus.vercel.app/auth?modo=login',
+            subject: "Bem Vindo! ao Task Master Plus",
+            text: "Confime sua inscrição."
+        }
+        const request = await fetch('https://many-dulcine-rectecnologia.koyeb.app/sendmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        })
+        return request.json()
+    }
     useEffect(() => {
         const token = localStorage.getItem('token')
         const user = JSON.parse(localStorage.getItem('userTaskMaster'))
@@ -201,7 +228,9 @@ export function AppProvider(props) {
             del,
             createTask,
             edtTask,
-            getTask
+            getTask,
+            validateEmail,
+            sendEmail
         }}>{props.children}</AppContext.Provider>
     )
 }
