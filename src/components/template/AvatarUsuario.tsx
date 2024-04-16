@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import useAppData from '../../data/hook/useAppData'
+import Image from 'next/image'
 
 interface AvatarUsuarioProps {
     className?: string
@@ -8,8 +9,8 @@ interface AvatarUsuarioProps {
 export default function AvatarUsuario(props: AvatarUsuarioProps) {
     const ctx = useAppData()
     return (
-        <Link href="">
-            <img
+        <div>
+            <Image
                 src={ctx?.user.img ?? '/avatar.svg'}
                 alt="Avatar do Usuário"
                 className={`
@@ -20,6 +21,6 @@ export default function AvatarUsuario(props: AvatarUsuarioProps) {
             <div className='justify-items-center pr-2 pl-2'>
                 {ctx.user.name}
             </div>
-        </Link>
+        </div>
     )
 }

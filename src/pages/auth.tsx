@@ -16,7 +16,7 @@ export default function Auth() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const linkMode = router.query.modo
+    const [linkMode, setlinkMode] = useState(null)
     function renderErro(msg, timeMs = 5000) {
         setErro(msg)
         setTimeout(() => {
@@ -69,9 +69,30 @@ export default function Auth() {
         }
     }
     useEffect(() => {
+        setlinkMode(router.query.modo)
         const user = localStorage.getItem('token')
         if (user) router.push('/')
     }, [])
+    function renderModeLogin() {
+        if (modo === 'login' && !linkMode) {
+            return (
+                <div className="mt-8">
+                    <span className="text-black">Novo por aqui?</span>
+                    <a onClick={() => setModo('register')} className="text-blue-500 hover:text-blue-700 font-semibold cursor-pointer"> Crie uma conta gratuitamente.
+                    </a>
+                </div>
+            )
+        }
+        if (modo === 'register') {
+            return (
+                <p className="mt-8">
+                    <span className="text-black">Já faz parte da nossa comunidade?</span>
+                    <a onClick={() => setModo('login')} className="text-blue-500 hover:text-blue-700 font-semibold cursor-pointer"> Entre com a sua conta
+                    </a>
+                </p>
+            )
+        }
+    }
     if (!loading && !isRegistered) {
         return (
             <div className="flex h-screen items-center justify-center bg-stone-100">
@@ -121,24 +142,7 @@ export default function Auth() {
                     <button onClick={submit} className="w-full bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg px-4 py-3 mt-6">
                         {modo === 'login' ? 'Entrar' : 'Cadastrar'}
                     </button>
-                    {modo === 'login' ? (
-                        <div>
-                            {!linkMode ? (
-                                <p className="mt-8">
-                                    <span className="text-black">Novo por aqui?</span>
-                                    <a onClick={() => setModo('register')} className="text-blue-500 hover:text-blue-700 font-semibold cursor-pointer"> Crie uma conta gratuitamente.
-                                    </a>
-                                </p>
-                            ) : null}
-                        </div>
-                    ) : (
-                        <p className="mt-8">
-                            <span className="text-black">Já faz parte da nossa comunidade?</span>
-                            <a onClick={() => setModo('login')} className="text-blue-500 hover:text-blue-700 font-semibold cursor-pointer"> Entre com a sua conta
-                            </a>
-
-                        </p>
-                    )}
+                    {renderModeLogin()}
                 </div>
             </div>
         )
