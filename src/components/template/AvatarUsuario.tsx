@@ -18,7 +18,7 @@ export default function AvatarUsuario(props: AvatarUsuarioProps) {
                     ${props.className}
                 `}
             />
-            <div className='justify-items-center pr-2 pl-2'>
+            <div className='justify-items-center text-black pr-2 pl-2'>
                 {ctx.user.name}
             </div>
         </div>
