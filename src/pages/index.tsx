@@ -20,6 +20,7 @@ export default function Home() {
   }
   async function del(id) {
     const resp = await ctx.del(id)
+    setTasks([])
     getTasks()
   }
   function renderErro(msg, timeMs = 5000) {
@@ -35,66 +36,67 @@ export default function Home() {
     }, timeMs);
   }
   function getSizeCard() {
-    console.log(sizeView)
     if (sizeView > 1400) return "25rem"
     if (sizeView < 1400) return "20rem"
   }
   function card(array) {
-    return array.map((task, i) => {
-      return (
-        <div key={task.id} className={`items-center bg-white p-2 border mb-2 ${task.status === 0 ? 'border-yellow-500' : null} ${task.status === 1 ? 'border-indigo-400' : null} ${task.status === 2 ? 'border-green-300' : null} rounded-lg`} >
-          <div className="text-slate-800">
-            <span className="grid grid-cols-2">
-              <div>
-                #{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
+    if (tasks.length) {
+      return array.map((task, i) => {
+        return (
+          <div key={task.id} className={`items-center bg-white p-2 border mb-2 ${task.status === 0 ? 'border-yellow-500' : null} ${task.status === 1 ? 'border-indigo-400' : null} ${task.status === 2 ? 'border-green-300' : null} rounded-lg`} >
+            <div className="text-slate-800">
+              <span className="grid grid-cols-2">
+                <div>
+                  #{i + 1} - <strong className="text-xl">{task.titleTask}</strong>
+                </div>
+                {task.status === 0 ? (<button disabled className="bg-yellow-500 p-1 rounded-lg h-8">
+                  PENDENTE
+                </button>) : null}
+                {task.status === 1 ? (<button disabled className="bg-indigo-400 p-1 rounded-lg h-8">
+                  EM ANDAMENTO
+                </button>) : null}
+                {task.status === 2 ? (<button disabled className="bg-green-300 p-1 rounded-lg h-8">
+                  CONCLUÍDA
+                </button>) : null}
+              </span>
+              <div className="my-.2">
+                ID: {task.id} <br />
               </div>
-              {task.status === 0 ? (<button disabled className="bg-yellow-500 p-1 rounded-lg h-8">
-                PENDENTE
-              </button>) : null}
-              {task.status === 1 ? (<button disabled className="bg-indigo-400 p-1 rounded-lg h-8">
-                EM ANDAMENTO
-              </button>) : null}
-              {task.status === 2 ? (<button disabled className="bg-green-300 p-1 rounded-lg h-8">
-                CONCLUÍDA
-              </button>) : null}
-            </span>
-            <div className="my-.2">
-              ID: {task.id} <br />
-            </div>
-            <div className="flex flex-row my-.2">
-              Descrição: {task.description}  <br />
-            </div>
-            <div className="flex flex-row my-1">
-              Data Conclusão: {(task.date_conclusion).substr(0, 10).split('-').reverse().join('/')} <br />
-            </div>
-            <div className="grid grid-cols-2">
-              <div>
-                Prioridade:
+              <div className="flex flex-row my-.2">
+                Descrição: {task.description}  <br />
               </div>
-              <div>
-                <span className="float-end">
-                  {task.priority === 1 ? (<button disabled className="bg-red-400 rounded-lg px-3 py-1 ml-2">ALTA</button>) : null}
-                </span>
-                <span className="float-end">
-                  {task.priority === 2 ? (<button disabled className="bg-yellow-400 rounded-lg px-3 py-1 ml-2">MÉDIA</button>) : null}
-                </span>
-                <span className="float-end">
-                  {task.priority === 3 ? (<button disabled className="bg-indigo-400 rounded-lg px-3 py-1">BAIXA</button>) : null}
-                </span>
+              <div className="flex flex-row my-1">
+                Data Conclusão: {(task.date_conclusion).substr(0, 10).split('-').reverse().join('/')} <br />
               </div>
-            </div>
-            <hr className="my-3" />
-            <div className="grid grid-rows-1 grid-cols-3 gap-4 justify-between mt-3">
-              {task.status === 0 ? (<button onClick={() => { ctx.checkCloncluded(task.id, tasks, false, 1) }} className="bg-indigo-400 rounded-lg py-1 px-1">{IconPlay}</button>) : null}
-              {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks, true)} className="bg-green-300 rounded-lg py-1 px-1">{IconEnd}</button>) : null}
-              {task.status === 2 ? (<button disabled className="bg-green-300  rounded-lg py-1 px-1">{IconCheck}</button>) : null}
-              {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg py-1 px-1">{IconPen}</button>) : null}
-              <button onClick={() => del(task.id)} className="items-center justify-center bg-red-400 rounded-lg py-1 px-1">{IconTrash}</button>
+              <div className="grid grid-cols-2">
+                <div>
+                  Prioridade:
+                </div>
+                <div>
+                  <span className="float-end">
+                    {task.priority === 1 ? (<button disabled className="bg-red-400 rounded-lg px-3 py-1 ml-2">ALTA</button>) : null}
+                  </span>
+                  <span className="float-end">
+                    {task.priority === 2 ? (<button disabled className="bg-yellow-400 rounded-lg px-3 py-1 ml-2">MÉDIA</button>) : null}
+                  </span>
+                  <span className="float-end">
+                    {task.priority === 3 ? (<button disabled className="bg-indigo-400 rounded-lg px-3 py-1">BAIXA</button>) : null}
+                  </span>
+                </div>
+              </div>
+              <hr className="my-3" />
+              <div className="grid grid-rows-1 grid-cols-3 gap-4 justify-between mt-3">
+                {task.status === 0 ? (<button onClick={() => { ctx.checkCloncluded(task.id, tasks, false, 1) }} className="bg-indigo-400 rounded-lg py-1 px-1">{IconPlay}</button>) : null}
+                {task.status === 1 ? (<button onClick={() => ctx.checkCloncluded(task.id, tasks, true)} className="bg-green-300 rounded-lg py-1 px-1">{IconEnd}</button>) : null}
+                {task.status === 2 ? (<button disabled className="bg-green-300  rounded-lg py-1 px-1">{IconCheck}</button>) : null}
+                {!task.concluded ? (<button onClick={() => ctx.edt(task.id)} className="bg-cyan-500 rounded-lg py-1 px-1">{IconPen}</button>) : null}
+                <button onClick={() => del(task.id)} className="items-center justify-center bg-red-400 rounded-lg py-1 px-1">{IconTrash}</button>
+              </div>
             </div>
           </div>
-        </div>
-      )
-    })
+        )
+      })
+    }
   }
   function renderList(list: string) {
     let listResult = []
@@ -126,9 +128,11 @@ export default function Home() {
   }
 
   function returnFiltered(array) {
-    return array.filter(function (element) {
-      return element !== undefined;
-    })
+    if (tasks.length) {
+      return array.filter(function (element) {
+        return element !== undefined;
+      })
+    }
   }
   const containerRef = useRef(null)
   const handleScroll = (scrollAmount) => {
