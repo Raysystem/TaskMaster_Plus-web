@@ -10,7 +10,7 @@ export default function AvatarUsuario(props: AvatarUsuarioProps) {
     const ctx = useAppData()
     return (
         <div>
-            <Image
+            <Image height={50} width={50}
                 src={ctx?.user.img ?? '/avatar.svg'}
                 alt="Avatar do Usuário"
                 className={`

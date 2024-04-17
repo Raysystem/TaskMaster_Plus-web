@@ -3,11 +3,6 @@ import Layout from "../components/template/Layout";
 import { IconCheck, IconEnd, IconPen, IconPlay, IconTrash, IconView, IconWarning } from "../components/icons";
 import useAppData from "../data/hook/useAppData";
 
-const getItems = () =>
-  Array(20)
-    .fill(0)
-    .map((_, ind) => ({ id: `element-${ind}` }));
-
 export default function Home() {
   const ctx = useAppData()
   const [erro, setErro] = useState(null)
@@ -15,12 +10,12 @@ export default function Home() {
   const [success, setSuccess] = useState('')
   const [tasks, setTasks] = useState([])
   useEffect(() => {
-    getTasks()
+    if(!tasks.length) getTasks()
     setSizeView(window.innerWidth)
   }, [])
   async function getTasks() {
     const resp = await ctx.getTasks()
-    if (resp.error) renderErro('Lista vazia Clique em "Criar Tarefa"!', 7000)
+    if (!resp.length) renderErro('Lista vazia Clique em "Criar Tarefa"!', 7000)
     else setTasks(resp)
   }
   async function del(id) {
@@ -43,7 +38,6 @@ export default function Home() {
     console.log(sizeView)
     if (sizeView > 1400) return "25rem"
     if (sizeView < 1400) return "20rem"
-    // if (sizeView < 1100) return "18rem"
   }
   function card(array) {
     return array.map((task, i) => {
@@ -123,12 +117,11 @@ export default function Home() {
         })
         listResult = returnFiltered(listResult)
       }
-      if (listResult.length) return (
+      return (
         <div className="flex-shrink-0 rounded-lg bg-white p-3 mr-3" style={{ width: getSizeCard() }}>
           {card(listResult)
           }</div>
       )
-      else null
     }
   }
 

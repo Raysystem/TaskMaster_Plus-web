@@ -108,7 +108,7 @@ export function AppProvider(props) {
             .then((res) => res.json())
                 .then((data) => {
                 setLoading(false)
-                return data.reverse();
+                return data;
                 }).catch(err => { setLoading(false); return err });
     }
     async function getTask(id): Promise<void> {
