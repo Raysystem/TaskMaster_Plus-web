@@ -37,7 +37,7 @@ export default function Auth() {
                 setEmail('')
                 setPassword('')
                 setLoading(false)
-                return renderErro(resp.message)
+                return renderErro(resp.message+ 'Ou não cadastrado.')
             }
             router.push('/')
             setLoading(false)
